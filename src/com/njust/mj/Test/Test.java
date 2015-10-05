@@ -17,8 +17,21 @@ import java.util.Scanner;
 
 
 
+
+
+
+
+
+
+
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import com.njust.mj.Bean.TransData;
+import com.njust.mj.Bean.User;
 import com.njust.mj.Controll.ServiceMain;
+import com.njust.mj.Service.HibernateUtil;
 
 public class Test {
 	@org.junit.Test
@@ -32,7 +45,7 @@ public class Test {
 		for(int i=0;i<x.length;i++){
 			data[index++] = x[i];
 		}
-		TransData taData = new TransData(data);
+		TransData taData = new TransData(data,0);
 		System.out.println(taData.getdesId());
 	}
 	public static void main(String[] args) throws Exception{
@@ -57,9 +70,10 @@ public class Test {
 								transData.setData(new byte[0]);
 								a++;
 							}else{
-								transData.setdesId("maojunb");
+								transData.setdesId("maojuna");
 								transData.setType(string.charAt(0)-'0');
-								transData.setData(new byte[0]);
+								transData.setData(string.getBytes());
+								System.out.println(transData.tobyte().length);
 							}
 							string = new String(transData.tobyte());
 							writer.write(string+'\n');
@@ -74,10 +88,13 @@ public class Test {
 				
 				@Override
 				public void run() {
+					System.out.println("receive");
 					String string = null ;
 					try {
 						while((string = bufferedReader.readLine())!=null){
-							System.out.println(string);
+							TransData transData = new TransData(string.getBytes(),1);
+							System.out.println(transData.getSrcId()+":"+transData.getdesId()+"|"+
+							new String(transData.getData()));
 						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -89,11 +106,16 @@ public class Test {
 	}
 	@org.junit.Test
 	public void test() {
-		TransData transData = new TransData();
-		transData.setSrcId("maojun");
-		transData.setType(3);
-		transData.setData(new byte[0]);
-		String string = new String(transData.tobyte());
-		System.out.println((int)string.getBytes()[0]);
+		
+	}
+	@org.junit.Test
+	public void testUser() {
+		Session session = HibernateUtil.currentSession();
+		Transaction transaction = session.beginTransaction();
+
+		User user = new User();
+		user.setUserId("maojun");
+		session.save(user);
+		transaction.commit();
 	}
 }

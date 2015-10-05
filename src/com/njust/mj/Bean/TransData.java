@@ -9,30 +9,28 @@ public class TransData {
 	public TransData() {
 		
 	}
-	public TransData(byte[] fromclient) {
-		System.out.println("fromclient:"+fromclient.length);
+	//参数为0说明是有客户端发送的数据
+	public TransData(byte[] fromclient,int x) {
 		int index = 0;
-		this.type = (int)fromclient[index++];
-		
-		int srcIdlength = -1;
-		int desIdlength = -1;
-		if(this.type!=3&&this.type!=4){
-			desIdlength = (int) fromclient[index++];
-			this.desId = new String(fromclient, index, desIdlength);
-			index = index+desIdlength;
+		this.type = (int) fromclient[index++];
+		int idlength = (int) fromclient[index++];
+		if(this.type == 3||this.type == 4){
+			this.srcId = new String(fromclient, index, idlength);
 		}else{
-			srcIdlength = (int)fromclient[index++];
-			this.srcId = new String(fromclient, index, srcIdlength);
-			index = index+srcIdlength;
+			if(x == 0){
+				this.desId = new String(fromclient, index, idlength);
+			}else {
+				this.srcId = new String(fromclient, index, idlength);
+			}
 		}
-		this.data = new byte[fromclient.length-index];
+		index=index+idlength;
+		this.data = new byte[fromclient.length-2-idlength];
 		for(int i=0;i<data.length;i++){
 			this.data[i] = fromclient[index++];
 		}
 	}
 	public byte[] tobyte() {
 		byte[] srcIdbyte = null;
-		
 		byte[] desIdbyte = null;
 		int a = 0;
 		int b = 0;
