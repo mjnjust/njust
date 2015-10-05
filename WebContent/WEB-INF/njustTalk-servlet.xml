@@ -16,7 +16,7 @@
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/html/" />
-		<property name="suffix" value=".do" />
+		<property name="suffix" value=".html" />
 	</bean>
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  

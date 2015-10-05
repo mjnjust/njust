@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/web")
 public class WebService {
 	
-	@RequestMapping(value="/test")
+	@RequestMapping(value="/test.do")
 	public void test() {
 		System.out.println("spring hello world!");
 	}
