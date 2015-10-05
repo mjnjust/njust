@@ -31,7 +31,10 @@ public class ClientThread extends Thread{
 	}
 	public void write(TransData transData) {
 		try {
-			this.writer.write(new String(transData.tobyte()));
+			System.out.println("ClientThread.write:"+transData.getSrcId()+"|"+transData.getdesId());
+			this.writer.write(new String(transData.tobyte())+'\n');
+			this.writer.flush();
+			System.out.println("end");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -42,7 +45,7 @@ public class ClientThread extends Thread{
 		String string = null ;
 		try {
 			while(!this.socket.isClosed()&&(string = bufferedReader.readLine())!=null){
-				TransData transData = new TransData(string.getBytes());
+				TransData transData = new TransData(string.getBytes(),0);
 				if(transData.getType() == 3){
 					/*
 					 * 登陆逻辑
@@ -69,6 +72,8 @@ public class ClientThread extends Thread{
 					/*
 					 * 其余的交给其他线程处理
 					 */
+					transData.setSrcId(myId);
+					System.out.println("ClientThread:"+transData.getSrcId()+"|"+transData.getdesId());
 					ServiceMain.transDatas.add(transData);
 					System.out.println("其余的交给其他线程处理"+ServiceMain.transDatas.size());
 				}

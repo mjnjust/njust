@@ -25,6 +25,7 @@ public class DispatchThread extends Thread{
 				*信息接收方在线逻辑
 				*/
 				else {
+					System.out.println("DispatchThread:"+transData.getSrcId()+"|"+transData.getdesId());
 					switch (transData.getType()) {
 					case 0://传送文字信息
 						ServiceHandle.transString(transData);

@@ -11,7 +11,9 @@ public class ServiceHandle {
 		 /*
 		  * 数据持久化逻辑
 		  */
-		 System.out.println("do transString");
+		 System.out.println("index:"+index);
+		 transData.setdesId(null);
+		 System.out.println("Servicehandle.transString:"+transData.getSrcId()+"|"+transData.getdesId());
 		 ServiceMain.clientThreads[index].write(transData);
 	}
 	public static void transFile(TransData transData) {
@@ -20,6 +22,8 @@ public class ServiceHandle {
 		 * 数据持久化逻辑
 		 */
 		System.out.println("do transFile");
+		 byte[] data = "transFile".getBytes();
+		 transData.setData(data);
 		ServiceMain.clientThreads[index].write(transData);
 	}
 	public static void transImage(TransData transData) {
@@ -28,6 +32,8 @@ public class ServiceHandle {
 		 * 数据持久化逻辑
 		 */
 		System.out.println("do transImage");
+		 byte[] data = "transImage".getBytes();
+		 transData.setData(data);
 		ServiceMain.clientThreads[index].write(transData);
 	}
 	
